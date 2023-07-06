@@ -13,6 +13,7 @@ export default function ships(name, length, hits, sunken) {
     // Add methods hit() and isSunk()
     ship.hit = function() {
         ship.hits += 1;
+        ship.isSunk();
     }
 
     ship.isSunk = function() {
@@ -23,4 +24,6 @@ export default function ships(name, length, hits, sunken) {
         return ship.sunken
     }
 
+    // Return the created ship
+    return ship;
 }
