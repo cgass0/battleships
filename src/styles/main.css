@@ -1,0 +1,129 @@
+/* Stylings for index */
+
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+}
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* Grids and flexbox layouts */
+
+.content {
+    display: grid;
+    min-height: 100vh;
+    text-align: center;
+    grid-template-rows: auto 1fr auto; 
+    grid-template-columns: 100%;
+}
+
+.grid-title {
+    grid-row: 1/2;
+    align-items: center;
+}
+
+.grid-main {
+    grid-row: 2/3;
+    height: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+}
+
+.grid-footer {
+    grid-row: 3/4;
+    align-items: center;
+}
+
+
+/* Individual compenents */
+
+#title {
+    font-size: 35px;
+    background-color: rgb(1, 36, 112);
+    color: aliceblue;
+}
+
+#title>h1 {
+    margin: 10px;
+}
+
+#footer {
+    background-color: rgb(1, 36, 112);
+    color: aliceblue;
+}
+
+.board-container {
+    display: grid;
+    grid-template-rows: 10px, auto;
+    justify-self: center;
+    align-self: center;
+    height: 100%;
+    width: -webkit-fill-available;
+    padding: 10px;
+}
+
+.board-container>p{
+    grid-row: 1/2;
+}
+
+/* Gameboard rendering */
+
+.gameboard {
+    grid-row: 2/3;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* Adjust the width as needed */
+   
+    gap: 2px; /* Adjust the gap between cells as needed */
+  }
+  
+  /* Style for game board cells */
+  .cell {
+    padding: 0px;
+    position: relative;
+    aspect-ratio: 1/1; /* Maintain a square aspect ratio */
+    background-color: #fff; /* Adjust the cell background color as needed */
+    border: 1px solid #ccc; /* Adjust the cell border as needed */
+  }
+
+  /* Add a pseudo-element to maintain the square shape */
+.cell::before {
+    content: "";
+    display: block;
+    padding-bottom: 100%; /* Create a square box based on the parent's width */
+  }
+  
+  /* Additional styles for cell content */
+  .cell-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .has-ship {
+    background-color: #369; /* Adjust the color for cells with a ship */
+  }
+  
+  .is-hit {
+    background-color: #f00; /* Adjust the color for cells that are hit */
+  }
+
+  /* CPU gameboard interacting*/
+
+#gameboard2 .gameboard .cell:hover {
+    background-color: black;
+}
+
+  

@@ -1,28 +1,61 @@
 import ships from './modules/ship.js';
 import gameboards from './modules/gameboard.js';
 import players from './modules/player.js';
+import enterPlayer from './modules/dom_enterPlayer.js';
+import { playerName } from './modules/dom_enterPlayer.js';
+import renderGameboards from './renderGameboards.js';
+//import gameInitiat from './modules/gameInitiat.js';
 
-// Creating the different battle ships
-const ship1 = ships("Carrier", 5, 0, false);
-const ship2 = ships("Battleship", 4, 0, false);
-const ship3 = ships("Cruiser", 3, 0, false);
-const ship4 = ships("Submarine", 3, 0, false);
-const ship5 = ships("Destroyer", 2, 0, false);
-
-// Creating the two game boards
-const gameboardHuman = gameboards(false, false);
-const gameboardCpu = gameboards(true, false);
-
-// Creating the two players
-const humanPlayer = players("Curtis", true); //this will eventually need to be from name input
-const cpuPlayer = players("CPU", true);
+//Enter name popup and declare name value
+enterPlayer();
+let game;
 
 
 // Everything below here is for testing
 
-console.log(humanPlayer, cpuPlayer);
+const displayBtn = document.getElementById("displayBtn");
+displayBtn.addEventListener('click', () => { 
+    game = gameInitiat();
+    renderGameboards(game.gameBoardHuman.board, true);
+})
 
-gameboardCpu.placeShip(0,5, ship1, 0);
+const attackBtn = document.getElementById("attackBtn");
+attackBtn.addEventListener('click', () => { 
+    console.log(game)
+    console.log(game.humanPlayer.name);
+    game.gameBoardCpu.placeShip(0,5, game.carrier, 0);
+    game.gameBoardCpu.placeShip(0,3, game.carrier, 0);
+    game.gameBoardCpu.receiveAttack(game.cpuPlayer.attack().xCord,game.cpuPlayer.attack().yCord);
+    console.log(game.gameBoardCpu.board);
+});
 
-gameboardCpu.receiveAttack(humanPlayer.attack().xCord,humanPlayer.attack().yCord);
-console.log(gameboardCpu.board);
+
+
+
+
+
+// Function to initiat a new game without needed to recall everything
+function gameInitiat() {
+
+    // Create the game
+    const game = {};
+
+    // Creating new gameBoards (not constant)
+    game.gameBoardHuman = gameboards(false, false);
+    game.gameBoardCpu = gameboards(true, false);
+
+    // Create new players (constant)
+    game.humanPlayer = players(playerName, false); 
+    game.cpuPlayer = players("CPU", true);
+
+    // Create the ships
+    game.carrier = ships("Carrier", 5, 0, false);
+    game.battleship = ships("Battleship", 4, 0, false);
+    game.cruiser = ships("Cruiser", 3, 0, false);
+    game.submarine = ships("Submarine", 3, 0, false);
+    game.destroyer = ships("Destroyer", 2, 0, false);
+
+    
+    // Return the created game
+    return game;
+}

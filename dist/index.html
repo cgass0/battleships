@@ -3,11 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="source">
     <script src="main.js" defer></script>
+    <link rel="stylesheet" href="/src/styles/main.css">
     <title>Battleships</title>
 </head>
 <body>
-    
+    <div class="content">
+        <div id="title" class="grid-title">
+            <h1>Battleship</h1>
+            <button id="displayBtn">Render</button>
+            <button id="attackBtn">Attack</button>
+        </div>
+
+        <div id="main" class="grid-main">
+            <div class="board-container" id="gameboard1">
+                <p>Friendly Waters</p>
+                             
+            </div>
+            <div class="board-container" id="gameboard2">
+                <p>Enemy Waters</p>
+                
+            </div>
+        </div>
+
+        <div id="footer" class="grid-footer">
+            <p>Copyright © cgass0 2023</p>
+        </div>
+
+    </div>
 </body>
 </html>

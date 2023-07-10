@@ -15,8 +15,6 @@ export default function players(name, isCpu) {
         if (player.turn !== true) {
             // Switch to this players turn
             player.turn = true;
-            // Call attack function
-            player.attack();
         } else {
             // Switch to other players turn
             player.turn = false;
