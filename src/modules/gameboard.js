@@ -29,42 +29,31 @@ export default function gameboards(isCpuBoard, allSunk) {
         // Check if the coordinates are valid
         // Check if ship length fits on board hortizontal x-axis
         if (axis === 0 & row + length > 10) {
-            return;
+            return true; // return true, need to retry with new cords
         }
         // Check if ship length fits on board vertical y-axis
         if (axis === 1 & col + length > 10) {
-            return;
+            return true; // return true, need to retry with new cords
         }
 
         // Recursive function to verify if the coordinates hasShip already
         function hasShipCheck(col, row, length, axis) {
             if (length === 0) {
-                console.log("End of the recursive, we hit a length of: " + length);
                 return false;
             } else {
                 if (axis === 1 & gameboard.board[row][col].hasShip === false) {
-                    console.log([row],[col]);
-                    console.log("hasShip = " + gameboard.board[row][col].hasShip);
-                    hasShipCheck(col + 1, row, length - 1, axis);
+                    return hasShipCheck(col + 1, row, length - 1, axis);
                 } else if (axis === 0 & gameboard.board[row][col].hasShip === false){
-                    console.log([row],[col]);
-                    console.log("hasShip = " + gameboard.board[row][col].hasShip);
-                    hasShipCheck(col, row + 1, length - 1, axis);
+                    return hasShipCheck(col, row + 1, length - 1, axis);
                 } else {
-                    console.log([row],[col]);
-                    console.log("hasShip = " + gameboard.board[row][col].hasShip);
-                    console.log("End recursive because we hit another ship")
-                    return true;
+                    return true; // return true, need to retry with new cords
                 }
             }           
         }
 
-        console.log("results: " + hasShipCheck(col, row, length, axis));
-
         // Now mark the cells as hasShip if check passed as false
         if (hasShipCheck(col, row, length, axis)) {
-            alert("ship already there");
-            return;
+            return true; // return true, need to retry with new cords
         } else {
             // Mark the Primary cell as having a ship
             let cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
@@ -94,20 +83,17 @@ export default function gameboards(isCpuBoard, allSunk) {
 
     // Method for receiving attack
     gameboard.receiveAttack = function(row, col) {
-        // Check if the coordinates are valid
-        if (row < 0 || row >= 10 || col < 0 || col >= 10) {
-            alert("Please target the board");
-            return;
-        }
-
+    
         // Check if the cell has already been hit
         if (gameboard.board[row][col].isHit) {
             alert("Cell already hit");
-            return;
+            return true;
         }
 
         // Mark the cell as hit
         gameboard.board[row][col].isHit = true;
+        let cell = document.querySelector(`[data-row='${row}'][data-col='${col}']`);
+        cell.classList.add('is-hit');
 
         // Check if cell hasShip
         if(gameboard.board[row][col].hasShip) {

@@ -117,7 +117,11 @@ a {
   }
   
   .is-hit {
-    background-color: #f00; /* Adjust the color for cells that are hit */
+    background-color: rgb(217, 255, 0); /* Adjust the color for cells that are hit */
+  }
+
+  .is-hit.has-ship {
+    background-color: red;
   }
 
   /* CPU gameboard interacting*/

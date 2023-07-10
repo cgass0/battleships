@@ -3,7 +3,7 @@ import gameboards from './modules/gameboard.js';
 import players from './modules/player.js';
 import enterPlayer from './modules/dom_enterPlayer.js';
 import { playerName } from './modules/dom_enterPlayer.js';
-import renderGameboards from './renderGameboards.js';
+import renderGameboards from './modules/renderGameboards.js';
 //import gameInitiat from './modules/gameInitiat.js';
 
 //Enter name popup and declare name value
@@ -16,17 +16,22 @@ let game;
 const displayBtn = document.getElementById("displayBtn");
 displayBtn.addEventListener('click', () => { 
     game = gameInitiat();
-    renderGameboards(game.gameBoardHuman.board, true);
+    renderGameboards(game.gameBoardCpu.board, false);
+    cpuShipPlacing(game.carrier);
+    cpuShipPlacing(game.battleship);
+    cpuShipPlacing(game.cruiser);
+    cpuShipPlacing(game.submarine);
+    cpuShipPlacing(game.destroyer);
 })
 
 const attackBtn = document.getElementById("attackBtn");
 attackBtn.addEventListener('click', () => { 
-    console.log(game)
-    console.log(game.humanPlayer.name);
-    game.gameBoardCpu.placeShip(0,5, game.carrier, 0);
-    game.gameBoardCpu.placeShip(0,3, game.carrier, 0);
-    game.gameBoardCpu.receiveAttack(game.cpuPlayer.attack().xCord,game.cpuPlayer.attack().yCord);
-    console.log(game.gameBoardCpu.board);
+
+    // Need recursive function to try until empty cell hit
+    if (game.gameBoardCpu.receiveAttack(game.cpuPlayer.attack().xCord,game.cpuPlayer.attack().yCord)) {
+        console.log("retry")
+        game.gameBoardCpu.receiveAttack(game.cpuPlayer.attack().xCord,game.cpuPlayer.attack().yCord);
+    }
 });
 
 
@@ -54,8 +59,21 @@ function gameInitiat() {
     game.cruiser = ships("Cruiser", 3, 0, false);
     game.submarine = ships("Submarine", 3, 0, false);
     game.destroyer = ships("Destroyer", 2, 0, false);
-
     
     // Return the created game
     return game;
+} 
+
+// Function to place the cpu ships
+function cpuShipPlacing(ship) {
+
+    let xCord = Math.floor(Math.random() * 10);
+    let yCord = Math.floor(Math.random() * 10);
+    let axis = Math.round(Math.random());
+
+    if (game.gameBoardCpu.placeShip(xCord, yCord, ship, axis)) {
+        return cpuShipPlacing(ship);
+    } else {
+        game.gameBoardCpu.placeShip(xCord, yCord, ship, axis);
+    }
 }
